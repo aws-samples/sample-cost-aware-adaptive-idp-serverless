@@ -1,0 +1,47 @@
+THIRD-PARTY LICENSES
+
+This sample is licensed under MIT-0 (see LICENSE). It does not copy or
+redistribute any third-party source code. It declares the packages below as
+dependencies, which you install yourself from PyPI or npm. Each package is
+governed by its own license. Verify the current license of the exact version you
+install; the information here reflects the pinned versions at the time of
+publication.
+
+Runtime / deploy (requirements.txt)
+-----------------------------------
+aws-cdk-lib      Apache-2.0   https://github.com/aws/aws-cdk
+constructs       Apache-2.0   https://github.com/aws/constructs
+PyYAML           MIT          https://github.com/yaml/pyyaml
+
+Interactive demo (requirements-demo.txt)
+----------------------------------------
+streamlit        Apache-2.0   https://github.com/streamlit/streamlit
+plotly           MIT          https://github.com/plotly/plotly.py
+Pillow           MIT-CMU      https://github.com/python-pillow/Pillow
+
+Development and test (requirements-dev.txt)
+-------------------------------------------
+pytest                              MIT          https://github.com/pytest-dev/pytest
+hypothesis                          MPL-2.0      https://github.com/HypothesisWorks/hypothesis
+moto                                Apache-2.0   https://github.com/getmoto/moto
+boto3                               Apache-2.0   https://github.com/boto/boto3
+aws-durable-execution-sdk-python    Apache-2.0   https://github.com/aws/aws-durable-execution-sdk-python
+pypdf                               BSD-3-Clause https://github.com/py-pdf/pypdf
+
+Optional, not pinned in any requirements file
+---------------------------------------------
+zstandard        BSD-3-Clause  https://github.com/indygreg/python-zstandard
+                 (optional zstd compression; the code falls back to gzip when absent)
+cdk-nag          Apache-2.0    https://github.com/cdklabs/cdk-nag
+                 (optional, enabled with -c idp:cdkNag=true; imported lazily)
+
+Notes
+-----
+* hypothesis is licensed under MPL-2.0 (file-level copyleft). It is used only as
+  a test-time tool and is not bundled into the deployed Lambda functions.
+* Sample documents:
+    - samples/synthetic/      Generated for this project and released under MIT-0.
+    - samples/public-domain/  Works of the U.S. federal government, in the public
+                              domain under 17 U.S.C. 105. See
+                              samples/public-domain/SOURCES.md.
+* Idea credit: see NOTICE (aws-samples/sample-textract-field-memory, MIT-0).

@@ -258,7 +258,7 @@ SAMPLE_DOCUMENTS = {
                 "technician": "R. Patel",
                 "calibration_status": "Pass",
                 "equipment_model": "Agilent 1260 Infinity II",
-                "serial_number": "DEABC12345",
+                "serial_number": "DEABC12345",  # pragma: allowlist secret
                 "next_due_date": "2024-09-01",
             },
             "pages": 1,

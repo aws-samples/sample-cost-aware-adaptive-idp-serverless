@@ -1373,4 +1373,4 @@ contributions to this sample.
 
 ## License
 
-MIT-0. See [`LICENSE`](./LICENSE) and [`NOTICE`](./NOTICE).
+MIT-0. See [`LICENSE`](./LICENSE), [`NOTICE`](./NOTICE) and [`THIRD-PARTY-LICENSES`](./THIRD-PARTY-LICENSES).
