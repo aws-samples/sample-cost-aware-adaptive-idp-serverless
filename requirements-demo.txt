@@ -1,0 +1,8 @@
+# Runtime dependencies for the interactive Streamlit demo (demo_ui.py).
+# Install with: pip install -r requirements-demo.txt
+streamlit==1.67.0
+plotly==6.1.2
+pyyaml==6.0.3
+# Pinned to the patched Pillow (streamlit 1.67.0 allows pillow<14); clears the
+# image-parsing advisories present in the 11.x/12.x line.
+pillow==13.0.0

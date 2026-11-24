@@ -1,0 +1,12 @@
+# Third-party dependencies bundled into the Lambda layer (all permissive
+# open-source licenses, all pure-Python — no native build/Docker needed).
+# Built into ./python by scripts/build_deps_layer.sh.
+#
+# PDF split + text-layer extraction for the LLM escalation path
+# (BSD-3-Clause, pure-Python). Keep this version aligned with
+# requirements-dev.txt so tests exercise the version that ships in the layer.
+pypdf==6.21.4
+# Industry-pack YAML parsing (MIT, pure-Python).
+PyYAML==6.0.3
+# Durable Execution SDK for the durable Textract/BDA functions (pure-Python).
+aws-durable-execution-sdk-python==1.6.0

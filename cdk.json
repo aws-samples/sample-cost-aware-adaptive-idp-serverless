@@ -1,0 +1,50 @@
+{
+  "app": "python3 app.py",
+  "watch": {
+    "include": ["**"],
+    "exclude": [
+      "README.md",
+      "cdk*.json",
+      "requirements*.txt",
+      "tests",
+      "**/__pycache__",
+      ".venv"
+    ]
+  },
+  "context": {
+    "idp:appName": "cost-aware-idp",
+    "idp:destroyOnDelete": false,
+    "idp:annotationsEnabled": false,
+    "idp:structuredTextractEnabled": false,
+    "idp:retrievalEnabled": false,
+    "idp:bedrockModelId": "us.amazon.nova-lite-v1:0",
+    "idp:packName": "construction",
+    "idp:logRetentionDays": 30,
+    "idp:glacierEnabled": true,
+    "idp:glacierTransitionDays": 30,
+    "idp:sourceExpiryDays": 30,
+    "idp:errorBucketExpiryDays": 90,
+    "idp:bdaOutputExpiryDays": 7,
+    "idp:athenaResultsExpiryDays": 30,
+    "idp:maxFileSizeMb": 50,
+    "idp:maxPages": 200,
+    "idp:paidTierMaxConcurrency": 5,
+    "idp:monthlyBudgetUsd": 100,
+    "idp:alertEmail": "",
+    "idp:bedrockGuardrailEnabled": false,
+    "idp:templateConfirmations": 2,
+    "idp:spotCheckPercent": 5,
+    "@aws-cdk/aws-lambda:recognizeLayerVersion": true,
+    "@aws-cdk/core:checkSecretUsage": true,
+    "@aws-cdk/core:target-partitions": ["aws", "aws-cn"],
+    "@aws-cdk-containers/ecs-service-extensions:enableDefaultLogDriver": true,
+    "@aws-cdk/aws-ec2:uniqueImdsv2TemplateName": true,
+    "@aws-cdk/aws-iam:minimizePolicies": true,
+    "@aws-cdk/core:validateSnapshotRemovalPolicy": true,
+    "@aws-cdk/aws-s3:createDefaultLoggingPolicy": true,
+    "@aws-cdk/aws-s3:serverAccessLogsUseBucketPolicy": true,
+    "@aws-cdk/core:enablePartitionLiterals": true,
+    "@aws-cdk/aws-lambda:checkStepFunctionsStateMachineActions": true,
+    "@aws-cdk/core:defaultCrossStackReferences": "strong"
+  }
+}

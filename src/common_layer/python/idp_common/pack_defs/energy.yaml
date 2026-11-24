@@ -1,0 +1,117 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+#
+# Energy industry pack. Fields + compliance rules are per document type.
+#
+# A field entry can be a bare name or an object with an optional `description`
+# (a hint, synonym list, or unit) that sharpens both the LLM extraction prompt
+# and the BDA blueprint instruction for that field.
+
+industry: energy
+
+linking_keys:
+  - well_id
+  - asset_id
+  - field_name
+  - facility_code
+
+document_types:
+  - name: well_test_report
+    region_kinds: [fields, table, chart]
+    fields:
+      - well_id
+      - flow_rate
+      - name: operating_pressure
+        description: Pressure observed during the test; also called flowing pressure. Typically in psi.
+      - name: pressure_rating
+        description: Maximum allowable pressure the equipment is rated for; also called MAOP or design pressure.
+      - choke_size
+      - test_date
+      - test_duration_hours
+      - operator
+      - reservoir_pressure
+      - fluid_type
+      - water_cut_pct
+      - gas_oil_ratio
+      - approved_by
+
+    compliance_rules:
+      - id: pressure_within_rating
+        description: Operating pressure must not exceed the equipment pressure rating.
+        expr: "operating_pressure <= pressure_rating"
+
+  - name: pipeline_inspection
+    region_kinds: [fields, table]
+    fields:
+      - asset_id
+      - segment_id
+      - name: wall_thickness
+        description: Remaining measured pipe wall thickness, typically in mm or inches.
+      - name: min_wall_thickness
+        description: Minimum allowable remaining wall thickness per code; also called retirement thickness.
+      - corrosion_rate
+      - inspection_date
+      - inspection_method
+      - pipeline_diameter
+      - coating_condition
+      - anomaly_count
+      - inspector
+      - next_inspection_due
+
+    compliance_rules:
+      - id: wall_thickness_minimum
+        description: Remaining wall thickness must be at least the minimum allowed.
+        expr: "wall_thickness >= min_wall_thickness"
+
+  - name: maintenance_log
+    region_kinds: [fields]
+    fields:
+      - asset_id
+      - work_order
+      - maintenance_type
+      - technician
+      - downtime_hours
+      - completion_date
+      - parts_replaced
+      - root_cause
+      - supervisor
+      - next_scheduled_maintenance
+
+  - name: well_completion_report
+    region_kinds: [fields, table]
+    fields:
+      - well_id
+      - name: api_uwi
+        description: The API/UWI well identifier.
+      - operator
+      - basin
+      - field_name
+      - name: well_type
+        description: e.g. Horizontal Development, Vertical Exploration.
+      - spud_date
+      - completion_date
+      - first_production_date
+      - total_depth
+      - name: casing_programme
+        description: Casing string sizes, weights, grades, and set depths.
+
+  - name: safety_incident_report
+    region_kinds: [fields]
+    fields:
+      - name: incident_reference
+        description: The incident report reference number.
+      - incident_datetime
+      - facility
+      - name: incident_type
+        description: e.g. hydrocarbon release, LTI, near miss, process safety event.
+      - name: severity
+        description: Incident severity/potential severity classification.
+      - injuries
+      - quantity_released
+      - investigation_status
+
+value_at_risk_weights:
+  operating_pressure: 1.0
+  pressure_rating: 1.0
+  wall_thickness: 0.9
+  min_wall_thickness: 0.9

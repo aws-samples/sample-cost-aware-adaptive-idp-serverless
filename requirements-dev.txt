@@ -1,0 +1,11 @@
+-r requirements.txt
+
+# Test + lint tooling, pinned to a tested set for reproducible installs.
+# Lets the engine/library be unit-tested without an AWS account.
+pytest==9.1.1
+hypothesis==6.155.7
+moto==5.2.2
+boto3==1.43.37
+PyYAML==6.0.3
+aws-durable-execution-sdk-python==1.6.0
+pypdf==6.21.4

@@ -1,0 +1,8 @@
+# CDK application runtime dependencies.
+# Pinned to a known-good, tested set for reproducible installs; adjust to your
+# local CDK CLI version if needed.
+aws-cdk-lib==2.259.0
+constructs==10.6.0
+# Used at synth time to load the active industry pack and derive the BDA
+# blueprint schema from it (pure-Python, MIT).
+PyYAML==6.0.3

@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# CDK
+cdk.out/
+cdk.context.json
+*.swp
+
+# Built Lambda dependencies layer. Regenerated from src/deps_layer/requirements.txt
+# by scripts/build_deps_layer.sh (run via scripts/prerequisites.sh before deploy).
+# The vendored third-party packages are not committed; only the placeholder is.
+src/deps_layer/python/*
+!src/deps_layer/python/.gitkeep
+
+# Local template_memory store / build artifacts
+.template_memory/
+build.log
+.DS_Store
+
+# Local test documents under samples/.
+# Ignore everything by default (transient generator output, ad-hoc downloads)...
+samples/*
+# ...but commit the two curated, vetted document sets that ship with the repo:
+#   - samples/synthetic/     AI-generated, fictional, carries a synthetic disclaimer
+#   - samples/public-domain/ genuine U.S. federal works (public domain; see SOURCES.md)
+!samples/synthetic/
+!samples/public-domain/
+# Keep generator PNG output out even inside the committed folders.
+samples/**/*.png
+
+# Local source bundle (copy of tracked files via `git archive`). Not part of the repo.
+scan-bundle/
+
+# Local tool output (agent task notes). Not part of the published sample.
+.agents/
+
+# Local scan and review output. Never commit it.
+reports/
+*.xlsx
