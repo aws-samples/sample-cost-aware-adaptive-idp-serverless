@@ -1,0 +1,3 @@
+# Third-party Python dependencies for the Lambda layer are installed here by
+# scripts/build_deps_layer.sh (PyMuPDF). This placeholder keeps the directory
+# present so `cdk synth` can package the layer asset before the build runs.

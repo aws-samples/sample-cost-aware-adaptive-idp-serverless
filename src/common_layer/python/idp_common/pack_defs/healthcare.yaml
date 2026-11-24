@@ -1,0 +1,97 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+#
+# Healthcare / life-sciences industry pack. Oriented at the inspection /
+# quality-compliance documents this pattern targets (e.g. FDA Form 483-style
+# inspection observations, lab result reports, and equipment calibration logs)
+# rather than clinical patient records. Fields + compliance rules per doc type.
+#
+# A field entry can be a bare name or an object with an optional `description`
+# (a hint, synonym list, or unit) that sharpens both the LLM extraction prompt
+# and the BDA blueprint instruction for that field.
+
+industry: healthcare
+
+linking_keys:
+  - facility_id
+  - batch_id
+  - equipment_id
+  - sample_id
+
+document_types:
+  - name: inspection_observation
+    region_kinds: [fields]
+    fields:
+      - facility_id
+      - observation_id
+      - severity
+      - inspector
+      - status
+      - observation_date
+      - regulation_reference
+      - corrective_action
+      - due_date
+      - responsible_party
+      - closure_date
+
+  - name: lab_result_report
+    region_kinds: [fields, table, chart]
+    fields:
+      - sample_id
+      - batch_id
+      - name: measured_value
+        description: The measured/observed test result value.
+      - name: specification_limit
+        description: The maximum acceptable value per the product specification; also called upper spec limit.
+      - test_method
+      - result_date
+      - analyst
+      - unit_of_measure
+      - product_name
+      - lot_number
+      - approved_by
+
+    compliance_rules:
+      - id: result_within_specification
+        description: Measured result must not exceed the specification limit.
+        expr: "measured_value <= specification_limit"
+
+  - name: equipment_calibration_log
+    region_kinds: [fields, table]
+    fields:
+      - equipment_id
+      - name: calibration_due_days
+        description: Days remaining until the next calibration is due (negative if overdue).
+      - last_calibration_date
+      - technician
+      - calibration_status
+      - equipment_model
+      - serial_number
+      - calibration_standard
+      - tolerance_range
+      - next_due_date
+
+    compliance_rules:
+      - id: calibration_not_overdue
+        description: Days remaining until calibration is due must be zero or more.
+        expr: "calibration_due_days >= 0"
+
+  - name: facility_inspection_report
+    region_kinds: [fields, table]
+    fields:
+      - facility_id
+      - name: report_reference
+        description: The inspection report reference number.
+      - inspection_dates
+      - name: current_rating
+        description: The overall regulatory rating, e.g. Outstanding, Good, Requires Improvement, Inadequate.
+      - previous_rating
+      - provider_type
+      - chief_executive
+      - published_date
+
+value_at_risk_weights:
+  measured_value: 1.0
+  specification_limit: 1.0
+  calibration_due_days: 0.7
+  batch_id: 0.4

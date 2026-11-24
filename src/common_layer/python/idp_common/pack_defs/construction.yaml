@@ -1,0 +1,157 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+#
+# Construction industry pack (flagship example).
+#
+# Declarative behavior for the engine. Fields and compliance rules are declared
+# PER DOCUMENT TYPE, so each document type extracts its own fields. Linking keys
+# (used to reconcile records across a project lifecycle) and value-at-risk
+# weights stay at the pack level.
+#
+# A field entry can be a bare name (`- pile_capacity`) or an object with an
+# optional `description` — a hint, synonym list, or unit that sharpens both the
+# LLM extraction prompt and the BDA blueprint instruction for that field:
+#   - name: withstand_limit
+#     description: Also called design load or allowable load; often in kN.
+
+industry: construction
+
+# Keys used to reconcile records across a project/asset/location lifecycle.
+# Field names are matched case-insensitively against extracted field labels.
+linking_keys:
+  - project_id
+  - asset_id
+  - location
+  - chainage
+
+document_types:
+  - name: pile_test_report
+    region_kinds: [fields, table, chart]
+    fields:
+      - name: pile_reference
+        description: The pile or test-point identifier (e.g. "P-14", "TP-3").
+      - name: pile_capacity
+        description: Measured or ultimate pile load capacity from the test.
+      - name: withstand_limit
+        description: Design/allowable load the pile must withstand; also called design load or allowable load.
+      - name: concrete_strength
+        description: Concrete compressive strength, typically in MPa.
+      - test_method
+      - test_date
+      - contractor
+      - site_engineer
+      - pile_diameter
+      - pile_length
+      - embedment_depth
+      - soil_type
+      - load_increment_data
+      - settlement_mm
+      - approval_status
+    # `expr` supports a single comparison between field names and/or numeric
+    # literals using one of: >= <= == != > <
+    compliance_rules:
+      - id: pile_capacity_meets_withstand
+        description: Pile capacity must meet or exceed the design withstand limit.
+        expr: "pile_capacity >= withstand_limit"
+      - id: concrete_strength_minimum
+        description: Concrete compressive strength must be at least 30 MPa.
+        expr: "concrete_strength >= 30"
+
+  - name: material_delivery_note
+    region_kinds: [fields, table]
+    fields:
+      - delivery_date
+      - material_type
+      - quantity
+      - unit_of_measure
+      - supplier
+      - po_number
+      - batch_reference
+      - delivery_vehicle
+      - received_by
+      - inspection_result
+      - certificate_reference
+
+  - name: inspection_report
+    region_kinds: [fields]
+    fields:
+      - inspection_date
+      - inspector
+      - defect_count
+      - status
+      - work_package
+      - location_description
+      - severity
+      - corrective_action
+      - reinspection_date
+      - signed_off_by
+
+  - name: ncr_report
+    region_kinds: [fields, table]
+    fields:
+      - name: ncr_reference
+        description: The non-conformance report number (e.g. "NCR-CWR-2024-0847").
+      - date_raised
+      - discipline
+      - name: priority
+        description: Urgency rating of the non-conformance, e.g. HIGH, MEDIUM, LOW.
+      - defect_location
+      - contractor
+      - raised_by
+      - name: status
+        description: Current NCR status, e.g. Open, Closed, Awaiting Corrective Action.
+      - root_cause
+      - corrective_action
+      - close_out_date
+      - client_representative
+    # A non-conformance report describes a distinct defect per document (cover
+    # thickness, compaction, drainage material, etc.), so there is no single
+    # cross-document compliance comparison to run here.
+
+  - name: invoice_payment_application
+    region_kinds: [fields, table]
+    fields:
+      - invoice_number
+      - name: valuation_number
+        description: The interim valuation/application number (e.g. "14 of 36").
+      - invoice_date
+      - due_date
+      - contract_reference
+      - amount_due
+      - name: retention_withheld
+        description: Amount held back as retention, typically a percentage of the valuation.
+      - vat_amount
+      - cumulative_value_to_date
+
+  - name: safety_incident_report
+    region_kinds: [fields]
+    fields:
+      - name: incident_reference
+        description: The incident report reference number.
+      - incident_date
+      - defect_location
+      - name: severity
+        description: Incident severity classification, e.g. LTI, first aid, near miss.
+      - injured_person
+      - name: riddor_reportable
+        description: Whether the incident is reportable under RIDDOR (UK); typically Yes/No.
+      - investigation_status
+      - reported_by
+
+  - name: geotechnical_survey_report
+    region_kinds: [fields, table, chart]
+    fields:
+      - report_number
+      - investigation_period
+      - name: borehole_count
+        description: Number and type of boreholes/CPTs drilled for the investigation.
+      - site_location
+      - client
+      - engineer
+
+# Higher weight => more costly to get wrong => more willing to escalate tiers.
+value_at_risk_weights:
+  pile_capacity: 1.0
+  withstand_limit: 1.0
+  concrete_strength: 0.8
+  project_id: 0.3

@@ -1,0 +1,21 @@
+sample-cost-aware-adaptive-idp-serverless
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+
+This product includes an idea credit to the following open-source project:
+
+------------------------------------------------------------------------------
+textract-field-memory
+  Source:  https://github.com/aws-samples/sample-textract-field-memory
+  License: MIT-0 (MIT No Attribution)
+
+  The spatial template-memory engine in this repository
+  (src/common_layer/python/idp_common/template_memory/) is an independent
+  implementation written for this project. No code was copied or ported from
+  the above project; it is credited here because the core idea — learning
+  field locations from a document layout so repeat documents of the same
+  layout can be resolved spatially instead of re-running extraction — is
+  attributed to it.
+
+  MIT-0 does not require attribution. This NOTICE is provided as a matter of
+  good open-source practice.
+------------------------------------------------------------------------------
